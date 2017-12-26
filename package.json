@@ -1,0 +1,39 @@
+{
+  "name": "jaanartc",
+  "version": "1.0.0",
+  "description": "Just an App by Nartc",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile-watch": "tsc -w",
+    "compile": "tsc",
+    "start": "npm run compile && nodemon ./build/index.js"
+  },
+  "author": "Chau Tran",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
+    "lodash": "^4.17.4",
+    "moment": "^2.20.1",
+    "mongoose": "^4.13.7",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.1",
+    "swagger-jsdoc": "^1.9.7",
+    "swagger-ui-express": "^2.0.13"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.0",
+    "@types/lodash": "^4.14.91",
+    "@types/mongoose": "^4.7.30",
+    "@types/node": "^8.5.2",
+    "@types/passport": "^0.4.2",
+    "@types/passport-jwt": "^3.0.0",
+    "@types/swagger-jsdoc": "0.0.2",
+    "typescript": "^2.6.2"
+  }
+}
