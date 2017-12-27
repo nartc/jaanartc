@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile-watch": "tsc -w",
     "compile": "tsc",
-    "start": "npm run compile && nodemon ./build/index.js"
+    "start": "npm run compile && node ./build/index.js",
+    "startdev": "npm run compile && nodemon ./build/index.js"
   },
   "author": "Chau Tran",
   "license": "MIT",

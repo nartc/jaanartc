@@ -1,9 +1,8 @@
-import { IUser } from '../models/User';
 import { Request, Response } from 'express';
-import { Error } from 'mongoose';
+import { MongoError } from 'mongodb';
 
 import { ITodo, Todo } from '../models/Todo';
-import { MongoError } from 'mongodb';
+import { IUser } from '../models/User';
 
 export class TodoController {
     async createTodo(req: Request, res: Response): Promise<Response> {

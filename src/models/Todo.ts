@@ -1,6 +1,7 @@
-import {Schema, model, Document, Model} from 'mongoose';
 import { MongoError } from 'mongodb';
-import { IUser } from './User';
+import { Document, Model, model, Schema } from 'mongoose';
+
+import { User } from './User';
 
 const TodoSchema = new Schema({
     title: {
@@ -60,6 +61,12 @@ export interface ITodoModel extends Model<ITodo> {
     deleteTodo(id: string);
 }
 
+TodoSchema.post('remove', async (todo: ITodo) => {
+    const user = await User.findById(todo.userId);
+    user.todoIds.splice(user.todoIds.indexOf(todo._id), 1);
+    user.save();
+});
+
 // Todo Functions
 TodoSchema.static('getTodos', async () => {
     return await Todo.find().select('-__v')
@@ -72,7 +79,7 @@ TodoSchema.static('getTodoBySlug', async (slug: string) => {
     return await Todo.findOne(query)
         .select('-__v')
         .populate('userId', '-__v -password')
-        .then((result: TodoVm) => result)
+        .then((result: ITodo) => result)
         .catch((error: MongoError) => error);;
 });
 
