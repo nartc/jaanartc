@@ -11,8 +11,8 @@ import { MongoError } from 'mongodb';
 import { Mongoose } from 'mongoose';
 import { coreConfig } from './config/keys';
 import { authenticateUser } from './config/passport';
-import TodoRoutes from './routes/TodoRoutes';
-import UserRoutes from './routes/UserRoutes';
+import { TodoRoutes } from './routes/TodoRoutes';
+import { UserRoutes } from './routes/UserRoutes';
 
 // Import Config
 // import Routes
@@ -20,7 +20,7 @@ import UserRoutes from './routes/UserRoutes';
 // App Class
 class App {
   public app: express.Application;
-
+  
   constructor() {
     this.app = express();
     this.config();
@@ -76,8 +76,8 @@ class App {
     });
 
     this.app.use('/', router);
-    this.app.use('/api/todos', TodoRoutes);
-    this.app.use('/api/users', UserRoutes);
+    this.app.use('/api/todos', new TodoRoutes().routes);
+    this.app.use('/api/users', new UserRoutes().routes);
   }
 }
 

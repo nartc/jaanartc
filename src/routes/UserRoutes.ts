@@ -16,8 +16,3 @@ export class UserRoutes {
     this.router.post('/login', this.userController.login);
   }
 }
-
-const userRoutes = new UserRoutes();
-userRoutes.routes();
-
-export default userRoutes.router;

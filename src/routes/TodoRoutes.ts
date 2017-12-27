@@ -23,8 +23,3 @@ export class TodoRoutes {
       .delete(this.todoController.deleteTodo);
   }
 }
-
-const todoRoutes = new TodoRoutes();
-todoRoutes.routes();
-
-export default todoRoutes.router;
