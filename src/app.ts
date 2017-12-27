@@ -66,16 +66,15 @@ class App {
     let router: express.Router;
     router = express.Router();
 
-    router.get('/', (req: Request, res: Response) => {
+    this.app.get('/', (req: Request, res: Response) => {
       res.send('Testing Index');
     });
 
     // Catch all routes
-    this.app.all('*', (req: Request, res: Response) => {
+    this.app.all('/*', (req: Request, res: Response) => {
       res.sendFile(__dirname, 'public/index.html');
     });
 
-    this.app.use('/', router);
     this.app.use('/api/todos', new TodoRoutes().routes);
     this.app.use('/api/users', new UserRoutes().routes);
   }
