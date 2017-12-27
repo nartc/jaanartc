@@ -9,8 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --prod",
-    "ng-src-install": "npm install && npm install --only=dev --dev"
+    "postinstall": "ng build --prod"
   },
   "private": true,
   "dependencies": {
@@ -26,12 +25,14 @@
     "@angular/service-worker": "^5.0.0",
     "core-js": "^2.4.1",
     "rxjs": "^5.5.2",
-    "zone.js": "^0.8.14"
-  },
-  "devDependencies": {
+    "zone.js": "^0.8.14",
     "@angular/cli": "1.6.1",
     "@angular/compiler-cli": "^5.0.0",
     "@angular/language-service": "^5.0.0",
     "typescript": "~2.4.2"
+  },
+  "devDependencies": {
+    "@angular/cli": "1.6.1",
+    "@angular/language-service": "^5.0.0"
   }
 }
