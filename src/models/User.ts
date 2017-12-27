@@ -1,4 +1,5 @@
 import { Schema, model, Model, Document } from 'mongoose';
+import { MongoError } from 'mongodb';
 
 const UserSchema = new Schema({
   userName: {
@@ -27,24 +28,47 @@ const UserSchema = new Schema({
   }]
 });
 
-interface ITodo extends Document {
-  _id: Schema.Types.ObjectId,
+export interface IUser extends Document {
   userName?: string,
   fullName?: string,
   password?: string,
   createdOn?: Date,
   updatedOn?: Date,
   lastVisted?: Date,
-  todoIds?: Schema.Types.ObjectId[]
+  todoIds?: string[]
 }
 
-export interface ITodoModel extends Model<ITodo> {
-  getTodos();
-  getTodoBySlug(slug);
-  createTodo(newTodo);
-  updateTodo(updatedTodo);
-  deleteTodo(slug);
-  
+export interface IUserModel extends Model<IUser> {
+  createUser(newUser: IUser);
+  getUserByUsername(userName: string);
+  getUserById(id: string);
+  updateUser(id: string, updatedUser: IUser);
 }
 
-export const User: Model<ITodo> = model('User', UserSchema);
+// User Functions
+UserSchema.static('createUser', (newUser: IUser) => {
+  return User.create(newUser)
+    .then((result: IUser) => result)
+    .catch((error: MongoError) => error);
+});
+
+UserSchema.static('getUserByUsername', (userName: string) => {
+  const query = { userName };
+  return User.findOne(query).select('-__v')
+    .then((result: IUser) => result)
+    .catch((error: MongoError) => error);
+});
+
+UserSchema.static('getUserById', (id: string) => {
+  return User.findById(id).select('-__v')
+    .then((result: IUser) => result)
+    .catch((error: MongoError) => error);
+});
+
+UserSchema.static('updateUser', (id: string, updatedUser: IUser) => {
+  return User.findByIdAndUpdate(id, updatedUser, {new: true})
+    .then((result: IUser) => result)
+    .catch((error: MongoError) => error);
+});
+
+export const User= model<IUser>('User', UserSchema) as IUserModel;

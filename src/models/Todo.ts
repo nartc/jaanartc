@@ -1,4 +1,6 @@
 import {Schema, model, Document, Model} from 'mongoose';
+import { MongoError } from 'mongodb';
+import { IUser } from './User';
 
 const TodoSchema = new Schema({
     title: {
@@ -38,7 +40,7 @@ const TodoSchema = new Schema({
     }
 });
 
-export interface ITodo {
+export interface ITodo extends Document {
     title: string,
     content: string,
     slug: string,
@@ -49,41 +51,54 @@ export interface ITodo {
     userId?: string
 }
 
-export interface ITodoModel extends ITodo, Document {
+export interface ITodoModel extends Model<ITodo> {
     getTodos();
     getTodoBySlug(slug: string);
     getTodosByUserId(userId: string);
-    createTodo(newTodo: ITodoModel);
-    updateTodo(id: string, updatedTodo: ITodoModel);
-    deleteTodo(slug: string);
+    createTodo(newTodo: ITodo);
+    updateTodo(id: string, updatedTodo: ITodo);
+    deleteTodo(id: string);
 }
 
 // Todo Functions
-TodoSchema.statics.getTodos = async () => {
-    return await Todo.find().select('-__v');
-}
+TodoSchema.static('getTodos', async () => {
+    return await Todo.find().select('-__v')
+        .then((result: ITodo[]) => result)
+        .catch((error: MongoError) => error);;
+});
 
-TodoSchema.statics.getTodoBySlug = async (slug: string) => {
-    const query = {slug: slug};
-    return await Todo.findOne(query).select('-__v');
-}
+TodoSchema.static('getTodoBySlug', async (slug: string) => {
+    const query = { slug };
+    return await Todo.findOne(query)
+        .select('-__v')
+        .populate('userId', '-__v -password')
+        .then((result: TodoVm) => result)
+        .catch((error: MongoError) => error);;
+});
 
-TodoSchema.statics.getTodosByUserId = async (userId: string) => {
-    const query = {userId: userId};
-    return await Todo.find(query).select('-__v').populate('userId').select('-__v -password');
-}
+TodoSchema.static('getTodosByUserId', async (userId: string) => {
+    const query = { userId };
+    return await Todo.find(query).select('-__v')
+        .then((result: ITodo[]) => result)
+        .catch((error: MongoError) => error);; 
+});
 
-TodoSchema.statics.createTodo = async (newTodo: ITodoModel) => {
-    return await newTodo.save();
-}
+TodoSchema.static('createTodo', (newTodo: ITodo) => {
+    return Todo.create(newTodo)
+        .then((result: ITodo) => result)
+        .catch((error: MongoError) => error);
+});
 
-TodoSchema.statics.updateTodo = async (id: string, updatedTodo: ITodoModel) => {
-    return await Todo.findByIdAndUpdate(id, updatedTodo);
-}
+TodoSchema.static('updateTodo', async (id: string, updatedTodo: ITodo) => {
+    return await Todo.findByIdAndUpdate(id, updatedTodo)
+        .then((result: ITodo) => result)
+        .catch((error: MongoError) => error);
+});
 
-TodoSchema.statics.deleteTodo = async (slug: string) => {
-    const query = {slug: slug};
-    return await Todo.findOneAndRemove(query);
-}
-const Todo: Model<ITodoModel> = model<ITodoModel>("Todo", TodoSchema);
-export default Todo;
+TodoSchema.static('deleteTodo', async (id: string) => {
+    return await Todo.findByIdAndRemove(id)
+        .then((result: ITodo) => result)
+        .catch((error: MongoError) => error);;
+});
+
+export const Todo = model<ITodo>('Todo', TodoSchema) as ITodoModel;

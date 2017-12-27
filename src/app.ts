@@ -1,18 +1,20 @@
-import * as path from 'path';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
-import { MongoError } from 'mongodb';
 import * as mongoose from 'mongoose';
-import { Mongoose } from 'mongoose';
 import * as logger from 'morgan';
 import * as passport from 'passport';
+import * as path from 'path';
+
+import { Request, Response } from 'express';
+import { MongoError } from 'mongodb';
+import { Mongoose } from 'mongoose';
+import { coreConfig } from './config/keys';
+import { authenticateUser } from './config/passport';
+import TodoRoutes from './routes/TodoRoutes';
+import UserRoutes from './routes/UserRoutes';
 
 // Import Config
-import { coreConfig } from './config/keys';
-import { Request, Response } from 'express';
-import TodoRoutes from './routes/TodoRoutes';
-
 // import Routes
 
 // App Class
@@ -55,7 +57,7 @@ class App {
     // Passport MW
     this.app.use(passport.initialize());
     this.app.use(passport.session());
-
+    authenticateUser(passport);
     // Static
     this.app.use(express.static(path.join(__dirname, 'public')));
 
@@ -75,6 +77,7 @@ class App {
 
     this.app.use('/', router);
     this.app.use('/api/todos', TodoRoutes);
+    this.app.use('/api/users', UserRoutes);
   }
 }
 
