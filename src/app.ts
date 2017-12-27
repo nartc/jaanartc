@@ -59,7 +59,7 @@ class App {
     this.app.use(passport.session());
     authenticateUser(passport);
     // Static
-    this.app.use(express.static(path.join(__dirname, 'public')));
+    this.app.use(express.static(path.join(__dirname, '../public')));
   }
 
   public routes(): void {
@@ -72,7 +72,7 @@ class App {
 
     // Catch all routes
     this.app.all('/*', (req: Request, res: Response) => {
-      res.sendFile(__dirname, 'public/index.html');
+      res.sendFile(__dirname, '../public/index.html');
     });
 
     this.app.use('/api/todos', new TodoRoutes().routes);
