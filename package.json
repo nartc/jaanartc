@@ -25,7 +25,8 @@
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1",
     "swagger-jsdoc": "^1.9.7",
-    "swagger-ui-express": "^2.0.13"
+    "swagger-ui-express": "^2.0.13",
+    "typescript": "^2.6.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.1",
