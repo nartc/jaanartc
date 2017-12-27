@@ -6,13 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile-watch": "tsc -w",
-    "start": "node ./build/index.js",
     "startdev": "tsc && nodemon ./build/index.js",
+    "start": "node ./build/index.js",
     "heroku-prebuild":
       "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; NPM_CONFIG_PRODUCTION=false NODE_ENV=development npm install --only=dev --dev",
     "heroku-postbuild":
       "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;",
-    "postinstall": "tsc"
+    "postinstall": "tsc && cd ./angular-src/ && ng build --prod"
   },
   "author": "Chau Tran",
   "license": "MIT",
@@ -41,6 +41,7 @@
     "@types/passport": "^0.4.2",
     "@types/passport-jwt": "^3.0.0",
     "@types/swagger-jsdoc": "0.0.2",
-    "typescript": "^2.6.2"
+    "typescript": "^2.6.2",
+    "@angular/cli": "^1.6.2"
   }
 }

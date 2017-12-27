@@ -20,7 +20,7 @@ import { UserRoutes } from './routes/UserRoutes';
 // App Class
 class App {
   public app: express.Application;
-  
+
   constructor() {
     this.app = express();
     this.config();
@@ -60,11 +60,6 @@ class App {
     authenticateUser(passport);
     // Static
     this.app.use(express.static(path.join(__dirname, 'public')));
-
-    // Catch all routes
-    this.app.all('*', (req: Request, res: Response) => {
-      res.sendFile(__dirname, 'public/index.html');
-    });
   }
 
   public routes(): void {
@@ -73,6 +68,11 @@ class App {
 
     router.get('/', (req: Request, res: Response) => {
       res.send('Testing Index');
+    });
+
+    // Catch all routes
+    this.app.all('*', (req: Request, res: Response) => {
+      res.sendFile(__dirname, 'public/index.html');
     });
 
     this.app.use('/', router);
