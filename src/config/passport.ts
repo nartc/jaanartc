@@ -1,17 +1,12 @@
-import * as passport from 'passport';
-// import * as passportJwt from 'passport-jwt';
-
 import { coreConfig } from './keys';
 import { PassportStatic } from 'passport';
 import { StrategyOptions, Strategy as JwtStrategy, ExtractJwt as ExtractJWT, VerifiedCallback} from 'passport-jwt';
 import { IUser, User } from '../models/User';
 import { MongoError } from 'mongodb';
 
-const ExtractJwt = ExtractJWT;
-
 export const authenticateUser = (passport: PassportStatic) => {
   const options: StrategyOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
+    jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('jwt'),
     secretOrKey: coreConfig.secretKey
   };
 

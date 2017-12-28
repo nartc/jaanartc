@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import { MongoError } from 'mongodb';
+import {Request, Response} from 'express';
+import {MongoError} from 'mongodb';
 
-import { ITodo, Todo } from '../models/Todo';
-import { IUser } from '../models/User';
+import {ITodo, Todo} from '../models/Todo';
+import {IUser} from '../models/User';
 
 export class TodoController {
     async createTodo(req: Request, res: Response): Promise<Response> {
@@ -25,7 +25,11 @@ export class TodoController {
         newTodo.slug = slugInput.concat(`-${lastSix}`);
         newTodo.userId = currentUser._id;
         currentUser.todoIds.push(newTodo._id);
-        currentUser.save();
+        try {
+            await currentUser.save();
+        } catch (error) {
+            return TodoController.resolveResponse(res, error);
+        }
 
         const result: ITodo | MongoError = await Todo.createTodo(newTodo);
 
@@ -35,7 +39,7 @@ export class TodoController {
     async updateTodo(req: Request, res: Response): Promise<Response> {
         const todo: ITodo = req.body.todo;
         const result: ITodo | MongoError = await Todo.updateTodo(todo._id, todo);
-        
+
         return TodoController.resolveResponse(res, result);
     }
 
@@ -51,7 +55,7 @@ export class TodoController {
         if ((typeof(slugParam)) === 'undefined' && !slugParam) return TodoController.resolveErrorResponse(res, 'Slug param cannot be empty', 404);
 
         const result = await Todo.getTodoBySlug(slugParam);
-        
+
         return TodoController.resolveResponse(res, result);
     }
 
@@ -72,7 +76,7 @@ export class TodoController {
         });
     }
 
-    private static resolveResponse(res: Response, result: ITodo | ITodo[] | MongoError = null) : Response {
+    private static resolveResponse(res: Response, result: ITodo | ITodo[] | MongoError = null): Response {
         if (result instanceof MongoError) {
             return res.status(500).json({
                 status: 500,
