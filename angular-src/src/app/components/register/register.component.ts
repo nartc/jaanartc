@@ -14,9 +14,18 @@ export class RegisterComponent extends BaseForm implements OnInit {
     constructor(
         private formBuilder: FormBuilder
     ) {
+        super();
     }
 
     ngOnInit() {
+    }
+
+    initForm() {
+
+    }
+
+    submit() {
+
     }
 
 }
