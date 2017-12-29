@@ -12,7 +12,8 @@
     "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; NPM_CONFIG_PRODUCTION=false NODE_ENV=development npm install --only=dev --dev",
     "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production; cd ./angular-src/ && npm install",
     "postinstall": "tsc",
-    "swagger": "java -jar ../../../swagger-codegen-cli.jar generate -l typescript-angular -c ./swagger-config.json -i http://localhost:3000/api/docs/swagger.json -o ../api"
+    "swagger": "npm run clean-swagger && java -jar ../../../swagger-codegen-cli.jar generate -l typescript-angular -c ./swagger-config.json -i http://localhost:3000/api/docs/swagger.json -o ./angular-src/src/app/swagger-api",
+    "clean-swagger": "rimraf angular-src/src/app/swagger-api"
   },
   "author": "Chau Tran",
   "license": "MIT",
