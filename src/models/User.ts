@@ -22,7 +22,7 @@ const UserSchema = new Schema({
     default: Date.now()
   },
   lastVisited: Date,
-  todoIds: [{
+  todos: [{
     type: Schema.Types.ObjectId,
     ref: 'Todo'
   }]
@@ -35,7 +35,7 @@ export interface IUser extends Document {
   createdOn?: Date,
   updatedOn?: Date,
   lastVisted?: Date,
-  todoIds?: string[]
+  todos?: string[]
 }
 
 export interface IUserModel extends Model<IUser> {
@@ -71,4 +71,4 @@ UserSchema.static('updateUser', (id: string, updatedUser: IUser) => {
     .catch((error: MongoError) => error);
 });
 
-export const User= model<IUser>('User', UserSchema) as IUserModel;
+export const User = model<IUser>('User', UserSchema) as IUserModel;

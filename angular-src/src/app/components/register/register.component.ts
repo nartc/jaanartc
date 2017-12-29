@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {BaseForm} from '../../utilities/BaseForm';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent extends BaseForm implements OnInit {
 
-  constructor() { }
+    form: FormGroup;
 
-  ngOnInit() {
-  }
+    constructor(
+        private formBuilder: FormBuilder
+    ) {
+    }
+
+    ngOnInit() {
+    }
 
 }

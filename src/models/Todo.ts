@@ -35,7 +35,7 @@ const TodoSchema = new Schema({
         unique: true,
         lowercase: true
     },
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     }
@@ -49,7 +49,7 @@ export interface ITodo extends Document {
     createdOn?: Date,
     updatedOn?: Date,
     isComplete?: boolean,
-    userId?: string
+    user?: string
 }
 
 export interface ITodoModel extends Model<ITodo> {
@@ -62,8 +62,8 @@ export interface ITodoModel extends Model<ITodo> {
 }
 
 TodoSchema.post('remove', async (todo: ITodo) => {
-    const user = await User.findById(todo.userId);
-    user.todoIds.splice(user.todoIds.indexOf(todo._id), 1);
+    const user = await User.findById(todo.user);
+    user.todos.splice(user.todos.indexOf(todo._id), 1);
     user.save();
 });
 
@@ -71,23 +71,23 @@ TodoSchema.post('remove', async (todo: ITodo) => {
 TodoSchema.static('getTodos', async () => {
     return await Todo.find().select('-__v')
         .then((result: ITodo[]) => result)
-        .catch((error: MongoError) => error);;
+        .catch((error: MongoError) => error);
 });
 
 TodoSchema.static('getTodoBySlug', async (slug: string) => {
     const query = { slug };
     return await Todo.findOne(query)
         .select('-__v')
-        .populate('userId', '-__v -password')
+        .populate('user', '-__v -password')
         .then((result: ITodo) => result)
-        .catch((error: MongoError) => error);;
+        .catch((error: MongoError) => error);
 });
 
-TodoSchema.static('getTodosByUserId', async (userId: string) => {
-    const query = { userId };
+TodoSchema.static('getTodosByUser', async (user: string) => {
+    const query = { user };
     return await Todo.find(query).select('-__v')
         .then((result: ITodo[]) => result)
-        .catch((error: MongoError) => error);; 
+        .catch((error: MongoError) => error);
 });
 
 TodoSchema.static('createTodo', (newTodo: ITodo) => {
@@ -105,7 +105,7 @@ TodoSchema.static('updateTodo', async (id: string, updatedTodo: ITodo) => {
 TodoSchema.static('deleteTodo', async (id: string) => {
     return await Todo.findByIdAndRemove(id)
         .then((result: ITodo) => result)
-        .catch((error: MongoError) => error);;
+        .catch((error: MongoError) => error);
 });
 
 export const Todo = model<ITodo>('Todo', TodoSchema) as ITodoModel;

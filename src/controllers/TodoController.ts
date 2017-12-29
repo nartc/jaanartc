@@ -5,6 +5,37 @@ import {ITodo, Todo} from '../models/Todo';
 import {IUser} from '../models/User';
 
 export class TodoController {
+
+    private static resolveErrorResponse(res: Response, message: string, statusCode: number): Response {
+        return res.status(statusCode).json({
+            status: statusCode,
+            message: message
+        });
+    }
+
+    private static resolveResponse(res: Response, result: ITodo | ITodo[] | MongoError = null): Response {
+        if (result instanceof MongoError) {
+            return res.status(500).json({
+                status: 500,
+                mongoError: result.code,
+                message: result.message,
+                error: result.name
+            });
+        }
+
+        if ((typeof(result)) === 'undefined' && !result) {
+            return res.status(res.statusCode).json({
+                status: res.statusCode,
+                message: res.statusMessage
+            });
+        }
+
+        return res.status(res.statusCode).json({
+            status: res.statusCode,
+            result: result
+        });
+    }
+
     async createTodo(req: Request, res: Response): Promise<Response> {
         const currentUser: IUser = req.user;
 
@@ -13,7 +44,7 @@ export class TodoController {
         const titleInput: string = req.body.title;
         const contentInput: string = req.body.content;
         const priorityLevel: string = req.body.priorityLevel ? req.body.priorityLevel : 'Low';
-        let slugInput: string = titleInput.replace(/\s+/g, '-').toLowerCase();
+        const slugInput: string = titleInput.replace(/\s+/g, '-').toLowerCase();
 
         const newTodo: ITodo = new Todo({
             title: titleInput,
@@ -23,8 +54,8 @@ export class TodoController {
 
         const lastSix = newTodo._id.toString().slice(-6);
         newTodo.slug = slugInput.concat(`-${lastSix}`);
-        newTodo.userId = currentUser._id;
-        currentUser.todoIds.push(newTodo._id);
+        newTodo.user = currentUser._id;
+        currentUser.todos.push(newTodo._id);
         try {
             await currentUser.save();
         } catch (error) {
@@ -67,35 +98,5 @@ export class TodoController {
         const result = await Todo.deleteTodo(id);
 
         return TodoController.resolveResponse(res, result);
-    }
-
-    private static resolveErrorResponse(res: Response, message: string, statusCode: number): Response {
-        return res.status(statusCode).json({
-            status: statusCode,
-            message: message
-        });
-    }
-
-    private static resolveResponse(res: Response, result: ITodo | ITodo[] | MongoError = null): Response {
-        if (result instanceof MongoError) {
-            return res.status(500).json({
-                status: 500,
-                mongoError: result.code,
-                message: result.message,
-                error: result.name
-            });
-        }
-
-        if ((typeof(result)) === 'undefined' && !result) {
-            return res.status(res.statusCode).json({
-                status: res.statusCode,
-                message: res.statusMessage
-            });
-        }
-
-        return res.status(res.statusCode).json({
-            status: res.statusCode,
-            result: result
-        });
     }
 }
