@@ -80,10 +80,20 @@ export class TodoController {
         return TodoController.resolveResponse(res, result);
     }
 
+    async getTodosByUser(req: Request, res: Response): Promise<Response> {
+        const currentUser: IUser = req.user;
+
+        if (!currentUser) return TodoController.resolveErrorResponse(res, 'Not Authorized', 403);
+
+        const result: ITodo[] | MongoError = await Todo.getTodosByUser(currentUser._id);
+
+        return TodoController.resolveResponse(res, result);
+    }
+
     async getSingleTodo(req: Request, res: Response): Promise<Response> {
         const slugParam: string = req.params.slug ? req.params.slug : null;
 
-        if ((typeof(slugParam)) === 'undefined' && !slugParam) return TodoController.resolveErrorResponse(res, 'Slug param cannot be empty', 404);
+        if ((typeof(slugParam)) === 'undefined' || !slugParam) return TodoController.resolveErrorResponse(res, 'Slug param cannot be empty', 404);
 
         const result = await Todo.getTodoBySlug(slugParam);
 

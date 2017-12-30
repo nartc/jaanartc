@@ -55,7 +55,7 @@ export interface ITodo extends Document {
 export interface ITodoModel extends Model<ITodo> {
     getTodos();
     getTodoBySlug(slug: string);
-    getTodosByUserId(userId: string);
+    getTodosByUser(user: string);
     createTodo(newTodo: ITodo);
     updateTodo(id: string, updatedTodo: ITodo);
     deleteTodo(id: string);
@@ -69,7 +69,9 @@ TodoSchema.post('remove', async (todo: ITodo) => {
 
 // Todo Functions
 TodoSchema.static('getTodos', async () => {
-    return await Todo.find().select('-__v')
+    return await Todo.find()
+        .select('-__v')
+        .populate('user', '-__v -password')
         .then((result: ITodo[]) => result)
         .catch((error: MongoError) => error);
 });
@@ -85,7 +87,9 @@ TodoSchema.static('getTodoBySlug', async (slug: string) => {
 
 TodoSchema.static('getTodosByUser', async (user: string) => {
     const query = { user };
-    return await Todo.find(query).select('-__v')
+    return await Todo.find(query)
+        .select('-__v')
+        .populate('user', '-__v -password')
         .then((result: ITodo[]) => result)
         .catch((error: MongoError) => error);
 });

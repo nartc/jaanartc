@@ -68,7 +68,7 @@ export class UserController {
 
         const fetchedUser: IUser | MongoError = await User.getUserByUsername(userNameInput);
 
-        if ((fetchedUser instanceof MongoError) || (!fetchedUser && (typeof(fetchedUser)) === 'undefined')) {
+        if ((fetchedUser instanceof MongoError) || fetchedUser === null) {
             return UserController.resolveResponse(res, fetchedUser);
         }
 
