@@ -111,16 +111,16 @@ export class TodoService {
     /**
      * 
      * Remove a Todo
-     * @param todoId Todo ID
+     * @param id Todo ID
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteTodo(todoId: string, observe?: 'body', reportProgress?: boolean): Observable<TodoVm>;
-    public deleteTodo(todoId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TodoVm>>;
-    public deleteTodo(todoId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TodoVm>>;
-    public deleteTodo(todoId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (todoId === null || todoId === undefined) {
-            throw new Error('Required parameter todoId was null or undefined when calling deleteTodo.');
+    public deleteTodo(id: string, observe?: 'body', reportProgress?: boolean): Observable<TodoVm>;
+    public deleteTodo(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TodoVm>>;
+    public deleteTodo(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TodoVm>>;
+    public deleteTodo(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling deleteTodo.');
         }
 
         let headers = this.defaultHeaders;
@@ -282,17 +282,17 @@ export class TodoService {
     /**
      * 
      * Update a single Todo
-     * @param todoId Todo ID
+     * @param id Todo ID
      * @param updatedTodo Updated Todo data
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateTodo(todoId: string, updatedTodo: TodoVm, observe?: 'body', reportProgress?: boolean): Observable<TodoVm>;
-    public updateTodo(todoId: string, updatedTodo: TodoVm, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TodoVm>>;
-    public updateTodo(todoId: string, updatedTodo: TodoVm, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TodoVm>>;
-    public updateTodo(todoId: string, updatedTodo: TodoVm, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (todoId === null || todoId === undefined) {
-            throw new Error('Required parameter todoId was null or undefined when calling updateTodo.');
+    public updateTodo(id: string, updatedTodo: TodoVm, observe?: 'body', reportProgress?: boolean): Observable<TodoVm>;
+    public updateTodo(id: string, updatedTodo: TodoVm, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<TodoVm>>;
+    public updateTodo(id: string, updatedTodo: TodoVm, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<TodoVm>>;
+    public updateTodo(id: string, updatedTodo: TodoVm, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling updateTodo.');
         }
         if (updatedTodo === null || updatedTodo === undefined) {
             throw new Error('Required parameter updatedTodo was null or undefined when calling updateTodo.');

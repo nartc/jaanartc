@@ -1,7 +1,58 @@
 <div class="ui-g">
   <div class="ui-g-3 ui-md-3 ui-sm-1"></div>
   <div class="ui-g-6 ui-md-6 ui-sm-10">
-
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <p-panel header="Register">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g">
+            <div class="ui-g-2 ui-md-2 ui-sm-1"></div>
+            <div class="ui-g-8 ui-md-8 ui-sm-10">
+              <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                <input type="text" pInputText placeholder="Username" [formControl]="userName">
+              </div>
+              <div class="ui-message ui-messages-error ui-corner-all"
+                   *ngIf="!userName.valid && userName.dirty">
+                <span *ngIf="userName.errors['required']"><i class="fa fa-close"></i> This field is required</span>
+                <span *ngIf="userName.errors['minlength']"><i class="fa fa-close"></i> Username must be at least 6 characters</span>
+              </div>
+            </div>
+            <div class="ui-g-2 ui-md-2 ui-sm-1"></div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-2 ui-md-2 ui-sm-1"></div>
+            <div class="ui-g-8 ui-md-8 ui-sm-10">
+              <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon"><i class="fa fa-key"></i></span>
+                <input type="password" pInputText placeholder="Password" [formControl]="password">
+              </div>
+              <div class="ui-message ui-messages-error ui-corner-all"
+                   *ngIf="!password.valid && password.dirty">
+                <span *ngIf="password.errors['required']"><i class="fa fa-close"></i> This field is required</span>
+              </div>
+            </div>
+            <div class="ui-g-2 ui-md-2 ui-sm-1"></div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-2 ui-md-2 ui-sm-1"></div>
+            <div class="ui-g-8 ui-md-8 ui-sm-10">
+              <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon"><i class="fa fa-user-plus"></i></span>
+                <input type="text" pInputText placeholder="Full Name" [formControl]="fullName">
+              </div>
+            </div>
+            <div class="ui-g-2 ui-md-2 ui-sm-1"></div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-2 ui-md-2 ui-sm-1"></div>
+            <div class="ui-g-8 ui-md-8 ui-sm-10">
+              <button pButton type="submit" value="Submit" [disabled]="!form.valid"></button>
+            </div>
+            <div class="ui-g-2 ui-md-2 ui-sm-1"></div>
+          </div>
+        </div>
+      </p-panel>
+    </form>
   </div>
   <div class="ui-g-3 ui-md-3 ui-sm-1"></div>
 </div>

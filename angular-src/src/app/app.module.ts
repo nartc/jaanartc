@@ -1,5 +1,8 @@
+import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {ServiceWorkerModule} from '@angular/service-worker';
 
@@ -19,6 +22,9 @@ import {TodosComponent} from './components/todos/todos.component';
 import {AuthComponent} from './layouts/auth/auth.component';
 import {DefaultComponent} from './layouts/default/default.component';
 import {PrimeImportsModule} from './primeng-imports.module';
+import {AuthService} from './services/auth.service';
+import {AuthenticationService} from './swagger-api/api/authentication.service';
+import {TodoService} from './swagger-api/api/todo.service';
 
 @NgModule({
     declarations: [
@@ -37,11 +43,15 @@ import {PrimeImportsModule} from './primeng-imports.module';
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         AppRoutingModule,
         ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
-        PrimeImportsModule
+        PrimeImportsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule
     ],
-    providers: [],
+    providers: [AuthService, AuthenticationService, TodoService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,36 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {MenuItem} from 'primeng/components/common/menuitem';
-import {Router} from '@angular/router';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+
+declare var M: any;
 
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, AfterViewInit {
+    @ViewChild('sideNav') sideNav: ElementRef;
 
-    menuItems: MenuItem[];
-
-    constructor(
-        private _router: Router
-    ) {
+    constructor() {
     }
 
     ngOnInit() {
-        this.menuItems = [
-            {
-                label:  "JAANartc",
-                routerLink: ['/'],
-                styleClass: "brand-logo"
-            }
-        ]
     }
 
-    onRegisterClickHandler() {
-        this._router.navigate(['/register']);
-    }
-
-    onLoginClickHandler() {
-        this._router.navigate(['/login']);
+    ngAfterViewInit() {
+        M.Sidenav.init(this.sideNav.nativeElement);
     }
 }

@@ -1,4 +1,14 @@
-<p-menubar [model]="menuItems" styleClass="menuBar">
-  <button pButton class="ui-button-secondary" type="button" label="Register" (click)="onRegisterClickHandler()"></button>
-  <button pButton class="ui-button-secondary" type="button" label="Login" (click)="onLoginClickHandler()"></button>
-</p-menubar>
+<nav>
+  <div class="nav-wrapper">
+    <a [routerLink]="['/']"class="brand-logo">JAANartc</a>
+    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      <li><a [routerLink]="['/register']">Register</a></li>
+      <li><a [routerLink]="['/login']">Login</a></li>
+    </ul>
+    <ul class="sidenav" id="mobile-demo" #sideNav>
+      <li routerLinkActive="active"><a [routerLink]="['/register']">Register</a></li>
+      <li routerLinkActive="active"><a [routerLink]="['/login']">Login</a></li>
+    </ul>
+  </div>
+</nav>

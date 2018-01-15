@@ -1,6 +1,5 @@
-import {Request, Response} from 'express';
 import {MongoError} from 'mongodb';
-
+import {Request, Response} from 'express';
 import {ITodo, Todo} from '../models/Todo';
 import {IUser} from '../models/User';
 

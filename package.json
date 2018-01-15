@@ -13,7 +13,8 @@
     "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production; cd ./angular-src/ && npm install",
     "postinstall": "tsc",
     "swagger": "npm run clean-swagger && java -jar ../../../swagger-codegen-cli.jar generate -l typescript-angular -c ./swagger-config.json -i http://localhost:3000/api/docs/swagger.json -o ./angular-src/src/app/swagger-api",
-    "clean-swagger": "rimraf angular-src/src/app/swagger-api"
+    "clean-swagger": "rimraf angular-src/src/app/swagger-api",
+    "start-both": "concurrently --kill-others-on-fail \"tsc -w\" \"nodemon ./build/index.js\" \"cd ./angular-src/ && ng serve\""
   },
   "author": "Chau Tran",
   "license": "MIT",

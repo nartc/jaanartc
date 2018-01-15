@@ -77,10 +77,6 @@ class App {
 
     public routes(): void {
 
-        this.app.get('/', (req: Request, res: Response) => {
-            res.send('Testing Index');
-        });
-
         if (this.environmentHosting === 'Development') {
             this.swaggerOptions = {
                 explorer: true,
@@ -92,6 +88,7 @@ class App {
         this.app.all('/*', (req: Request, res: Response) => {
             res.sendFile(__dirname, '../public/index.html');
         });
+
         this.app.use('/', this.apiDocsRoutes.getRouter());
         this.app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(null, this.swaggerOptions));
         this.app.use('/api/todos', this.todoRoutes.router);

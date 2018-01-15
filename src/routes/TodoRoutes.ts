@@ -146,7 +146,7 @@ export class TodoRoutes {
          *   tags:
          *    - Todo
          *   parameters:
-         *    - name: Todo Id
+         *    - name: id
          *      in: path
          *      required: true
          *      description: Todo ID
@@ -178,7 +178,7 @@ export class TodoRoutes {
          *   tags:
          *    - Todo
          *   parameters:
-         *    - name: Todo Id
+         *    - name: id
          *      in: path
          *      required: true
          *      description: Todo ID
@@ -198,7 +198,7 @@ export class TodoRoutes {
          *      $ref: "#/definitions/ErrorResponse"
          */
         this.router.use(passport.authenticate('jwt', {session: false}))
-            .route('/todo:id')
+            .route('/todo/:id')
             .put(this.todoController.updateTodo)
             .delete(this.todoController.deleteTodo);
 
