@@ -41,7 +41,7 @@ const TodoSchema = new Schema({
     }
 });
 
-export interface ITodo extends Document {
+export interface ITodo {
     title: string,
     content: string,
     slug: string,
@@ -51,8 +51,10 @@ export interface ITodo extends Document {
     isComplete?: boolean,
     user?: string
 }
+    
+export type TodoInstance = ITodo & Document & { /* possible mongoose schema virtuals */ } 
 
-export interface ITodoModel extends Model<ITodo> {
+export interface ITodoModel extends Model<TodoInstance> {
     getTodos();
     getTodoBySlug(slug: string);
     getTodosByUser(user: string);
